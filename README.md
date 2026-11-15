@@ -15,3 +15,7 @@ model/data/   DAYTON_hourly.csv power-use dataset and a sample predictions file
 scripts/      HS110.py, reads live power from a TP-Link HS110 smart plug
 experiments/  Early Kivy screen tests and a knapsack approach to grouping devices
 ```
+
+## Configuration
+
+The app reads its logins and paths from a `.env` file. Copy `.env.example` to `.env` and fill in your values; `.env` is ignored by git.

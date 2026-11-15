@@ -24,6 +24,21 @@ from kivymd.uix.snackbar import Snackbar
 import threading
 import csv
 
+# Settings come from a .env file (see .env.example) or environment variables
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+EMPORIA_EMAIL = os.environ.get('EMPORIA_EMAIL')
+EMPORIA_PASSWORD = os.environ.get('EMPORIA_PASSWORD')
+SSH_HOST = os.environ.get('SSH_HOST', '127.0.0.1')
+SSH_USER = os.environ.get('SSH_USER')
+SSH_PASSWORD = os.environ.get('SSH_PASSWORD')
+PIPELINE_PATH = os.environ.get('PIPELINE_PATH', 'model/pipeline.py')
+PREDICTIONS_PATH = os.environ.get('PREDICTIONS_PATH', 'model/predictions.csv')
+
 
 
 KIVY_FONTS = [
@@ -59,7 +74,7 @@ class Unit(Enum):
     CARBON = 'Carbon'
 
 vue = PyEmVue()
-vue.login(username='EMPORIA_EMAIL_REMOVED', password='PASSWORD_REMOVED')
+vue.login(username=EMPORIA_EMAIL, password=EMPORIA_PASSWORD)
 
 global z
 z = 0
@@ -197,13 +212,13 @@ class Page1(Screen):
     def get_predictions(self, *args):
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect('127.0.0.1', username='mohad', password='PASSWORD_REMOVED')
-            stdout = client.exec_command('python C:/Users/mohad/SDP/pipeline.py', get_pty= True)[1]
+            client.connect(SSH_HOST, username=SSH_USER, password=SSH_PASSWORD)
+            stdout = client.exec_command(f'python {PIPELINE_PATH}', get_pty= True)[1]
             print('Neural Network AI pipeline executed!')
             for line in stdout:
                 print(line)
             sftp_client = client.open_sftp()
-            remote_file = sftp_client.open('C:/Users/mohad/SDP/predictions.csv')
+            remote_file = sftp_client.open(PREDICTIONS_PATH)
             try:
                 reader = csv.reader(remote_file)
                 data = list(reader)
@@ -222,9 +237,9 @@ class Page1(Screen):
     def get_recommendations(self, *args):
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect('127.0.0.1', username='mohad', password='PASSWORD_REMOVED')
+        client.connect(SSH_HOST, username=SSH_USER, password=SSH_PASSWORD)
         sftp_client=client.open_sftp()
-        remote_file = sftp_client.open('C:/Users/mohad/SDP/predictions.csv', 'r')
+        remote_file = sftp_client.open(PREDICTIONS_PATH, 'r')
         print("File Opened!")
         try:
             reader = csv.reader(remote_file)
