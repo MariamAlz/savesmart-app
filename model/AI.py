@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 
 # Deep learning: 
+import os
 from keras.models import Sequential, load_model
 from keras.layers import LSTM, Dense
 import warnings
@@ -126,7 +127,7 @@ class DeepModelTS():
 
         # Saving the model to the class 
         self.model = model
-        model.save("SDP_model.h5")
+        model.save(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lstm_model.h5"))
         return model
 
     def predict(self) -> list:
