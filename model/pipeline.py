@@ -23,11 +23,12 @@ import csv
 
 # Reading the hyper parameters for the pipeline
 
-with open(f'{os.getcwd()}\\conf.yml') as file:
+HERE = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(HERE, 'conf.yml')) as file:
     conf = yaml.load(file, Loader=yaml.FullLoader)
 
 # Reading the data 
-d = pd.read_csv('C:/Users/mohad/SDP/input/DAYTON_hourly.csv')
+d = pd.read_csv(os.path.join(HERE, 'data', 'DAYTON_hourly.csv'))
 d['Datetime'] = [datetime.strptime(x, '%Y-%m-%d %H:%M:%S') for x in d['Datetime']]
 
 # Making sure there are no duplicated data

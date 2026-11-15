@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 from sklearn.linear_model import LinearRegression
@@ -12,7 +13,7 @@ from sklearn.linear_model import RANSACRegressor
 from sklearn.linear_model import SGDRegressor
 from sklearn.tree import DecisionTreeRegressor
 
-digits = pd.read_csv("input/DAYTON_hourly.csv")
+digits = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "DAYTON_hourly.csv"))
 
 def get_models(models=dict()):
     models['lr'] = LinearRegression()
