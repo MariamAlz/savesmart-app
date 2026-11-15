@@ -4,7 +4,7 @@
 
 Delivery of the final system for the SaveSmart mobile application in Kivy.
 
-This is the team's final repository, kept here as a record of the project. My Xamarin app prototype for SaveSmart is in [MariamAlz/SaveSmart](https://github.com/MariamAlz/SaveSmart).
+This is the team's final repository, kept here as a record of the project. My Xamarin app prototype for SaveSmart is in [MariamAlz/savesmart-prototype](https://github.com/MariamAlz/savesmart-prototype).
 
 ## Project structure
 
